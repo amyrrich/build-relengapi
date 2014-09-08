@@ -42,12 +42,15 @@ setup(
     ],
     extras_require={
         'test': [
+            'hacking',
             'nose',
             'mock',
             'coverage',
             'pep8',
             'mockldap',
             'pyflakes',
+            'flake8',
+            'pbr',
         ],
         # extras required only for LDAP authorization support
         'ldap': [

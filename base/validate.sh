@@ -9,7 +9,7 @@ set -e
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 source ./validate-common.sh
 
-tmpbase=$(mktemp -d)
+tmpbase=$(mktemp -d -t tmpbase.XXXXXX)
 trap 'rm -f ${tmpbase}; exit 1' 1 2 3 15
 
 status "running pep8"
@@ -17,6 +17,9 @@ pep8 --config=pep8rc relengapi || not_ok "pep8 failed"
 
 status "running pyflakes"
 pyflakes relengapi || not_ok "pyflakes failed"
+
+status "running flake8"  # uses tox.ini as a config file
+flake8 --config=pep8rc relengapi || not_ok "flake8 failed"
 
 status "building docs"
 relengapi build-docs --development || not_ok "build-docs failed"
